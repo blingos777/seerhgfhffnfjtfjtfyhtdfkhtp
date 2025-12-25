@@ -42,10 +42,7 @@ const animals = [
     { name: "La Extinct Grande", money: [153] },
     { name: "Reinito Sleighito", money: [140] },
     // الـ gods (2%)
-    { name: "Garama and Madundung", money: [1400] },
-    { name: "Meowl", money: [2200] },
-    { name: "Cooki and Milki", money: [2500] },
-    { name: "Los Primos", money: [1100] },
+
     // باقي (15%)
     { name: "Nuclearo Dinossauro", money: [165, 150, 133, 120, 94, 79, 64, 60, 46, 30, 23, 19, 15] },
     { name: "Gobblino Uniciclino", money: [165, 28] },
