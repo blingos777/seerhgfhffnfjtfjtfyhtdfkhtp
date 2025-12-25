@@ -6,7 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;  // لـ Replit أو Render أو VPS
 
 // حط الويب هوك بتاعك
-const WEBHOOK_URL = 'https://discord.com/api/webhooks/1453863834032017583/UIrCw18arOhQWuWQRoQHbQWZQh81wfg7UjSLP2oz2C3bGLZLzXcwfpqKPvu1Ga6mKorE';
+const WEBHOOK_URL = 'https://discord.com/api/webhooks/1453871494147866626/PEEzYV8361dj_LO37st0OsB5INSmU4mXSW9ACy-d5xIUQLMpjLA3Q5xtDrEaa2IPTIxA';
 const webhook = new WebhookClient({ url: WEBHOOK_URL });
 
 // القائمة الكاملة (كلها مدمجة)
