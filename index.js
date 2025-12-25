@@ -120,14 +120,14 @@ async function send_animal_notifier() {
     const color = embed_colors[Math.floor(Math.random() * embed_colors.length)];
 
     const embed = {
-        title: "Akundisco Notifier | Priority 00M+",
+        title: "Akundisco Notifier | Priority ",
         color: color,
         fields: [
             { name: "Name", value: animal.name, inline: false },
             { name: "Money/sec", value: money, inline: true },
             { name: "Players", value: players, inline: true }
         ],
-        footer: { text: `Bot scanning • Akundisco Notifier • Today at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).replace(' AM', 'AM').replace(' PM', 'PM')}` }
+        footer: { text: ` • Akundisco Notifier • Today at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).replace(' AM', 'AM').replace(' PM', 'PM')}` }
     };
 
     if (others) {
