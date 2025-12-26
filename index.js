@@ -83,6 +83,7 @@ const normal_new_animals = animals.slice(0, 30);
 const god_animals = animals.slice(30, 37);
 const old_animals = animals.slice(37);
 
+// ألوان علم الترانس + اللي قبل
 const embed_colors = [
     0x5BCEFA,  // أزرق فاتح
     0xF5A9B8,  // وردي
@@ -143,11 +144,12 @@ async function send_animal_notifier() {
     const money = main_money_val >= 1000 ? `$${ (main_money_val / 1000).toFixed(1) }B/s` : `$${main_money_val}M/s`;
     const players = `${Math.floor(Math.random() * 5) + 4}/8`;
     const others = generate_others(main_money_val);
+    const color = embed_colors[Math.floor(Math.random() * embed_colors.length)];
     const random_emoji = emojis[Math.floor(Math.random() * emojis.length)];
 
     const embed = {
-        title: `Akundisco Notifier | Priority ${random_emoji} `,
-        color: pink_color,
+        title: `${random_emoji} Akundisco Notifier | ${random_emoji} `,
+        color: color,
         fields: [
             { name: "Name", value: animal.name, inline: false },
             { name: "Money/sec", value: money, inline: true },
