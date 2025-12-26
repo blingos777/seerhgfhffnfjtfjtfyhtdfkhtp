@@ -3,27 +3,25 @@ const { WebhookClient } = require('discord.js');
 const express = require('express');
 
 const app = express();
-const PORT = process.env.PORT || 3000;  // لـ Replit أو Render أو VPS
+const PORT = process.env.PORT || 3000;
 
-// حط الويب هوك بتاعك
 const WEBHOOK_URL = 'https://discord.com/api/webhooks/1453871494147866626/PEEzYV8361dj_LO37st0OsB5INSmU4mXSW9ACy-d5xIUQLMpjLA3Q5xtDrEaa2IPTIxA';
 const webhook = new WebhookClient({ url: WEBHOOK_URL });
 
-// القائمة الكاملة (كلها مدمجة)
+// القائمة الكاملة
 const animals = [
-    // الجدد (85%)
+    // الجدد العاديين (83%)
     { name: "Los Candies", money: [334, 391, 253, 230, 196, 138, 92, 35, 23] },
-    { name: "La Secret Combinasion", money: [625] },
     { name: "Esok Sekolah", money: [720, 450, 300, 255, 240, 218, 210, 188, 180, 128, 120, 105, 98, 38, 30] },
     { name: "Mieteteira Bicicleteira", money: [403, 364, 260, 234, 195, 182, 156, 130, 104, 78, 33, 32, 30, 26] },
-    { name: "Spaghetti Tualetti", money: [600, 510, 375, 360, 300, 180, 90, 75, 60] },
+    { name: "Spaghetti Tualetti", money: [600, 510, 375, 360, 300, 195, 180, 90, 75, 60] },
     { name: "La Spooky Grande", money: [533] },
     { name: "Los Spaghettis", money: [525, 420] },
     { name: "Los 67", money: [293, 270, 158, 135, 113, 107, 101, 68, 60, 45, 38, 23] },
     { name: "Los Combinasionas", money: [210, 195, 180, 165, 150, 128, 120, 113, 109, 105, 98, 94, 90, 68, 60, 53, 49, 45, 19, 15] },
     { name: "Naughty Naughty", money: [45, 41, 36, 30, 21, 20, 19, 18] },
     { name: "La Ginger Sekolah", money: [469, 391, 315, 253, 233] },
-    { name: "Chicleteira Noelteira", money: [315, 270, 240, 233, 203, 165, 150, 146, 135, 128, 105, 98, 90, 15] },
+    { name: "Chicleteira Noelteira", money: [315, 270, 240, 233, 203, 165, 150, 146, 135, 128, 127.5, 105, 98, 90, 15] },
     { name: "Swag Soda", money: [104, 78, 52, 13] },
     { name: "Los Nooo My Hotspotsitos", money: [96, 77, 69, 54, 39, 33, 30, 29, 19, 17] },
     { name: "Graipuss Medussi", money: [10] },
@@ -41,8 +39,16 @@ const animals = [
     { name: "Celularcini Viciosini", money: [270] },
     { name: "La Extinct Grande", money: [153] },
     { name: "Reinito Sleighito", money: [140] },
+    { name: "Strawberry Elephant", money: [550] },
+    { name: "Fragrama and Chocrama", money: [1800] },
     // الـ gods (2%)
-
+    { name: "Garama and Madundung", money: [1400, 750, 400] },
+    { name: "Meowl", money: [450] },
+    { name: "Cooki and Milki", money: [2500] },
+    { name: "Los Primos", money: [1100] },
+    { name: "Swaggy Bros", money: [1400] },
+    { name: "Spooky and Pumpky", money: [1000] },
+    { name: "La Secret Combinasion", money: [2000] },
     // باقي (15%)
     { name: "Nuclearo Dinossauro", money: [165, 150, 133, 120, 94, 79, 64, 60, 46, 30, 23, 19, 15] },
     { name: "Gobblino Uniciclino", money: [165, 28] },
@@ -56,7 +62,6 @@ const animals = [
     { name: "Capitano Moby", money: [200] },
     { name: "Los Puggies", money: [270, 241, 188, 180, 420] },
     { name: "Quesadillo Vampiro", money: [46, 32, 18] },
-    { name: "Spooky and Pumpky", money: [720] },
     { name: "Mariachi Corazoni", money: [125] },
     { name: "Ketchuru and Musturu", money: [393, 383, 351, 276, 255, 181, 64, 43] },
     { name: "La Jolly Grande", money: [398, 360, 345, 300, 188, 150] },
@@ -75,10 +80,16 @@ const animals = [
 ];
 
 const normal_new_animals = animals.slice(0, 30);
-const god_animals = animals.slice(30, 34);
-const old_animals = animals.slice(34);
+const god_animals = animals.slice(30, 37);
+const old_animals = animals.slice(37);
 
-const embed_colors = [0x9B59B6, 0xE67E22, 0xFF69B4];
+const pink_color = 0xFF69B4;
+
+const emojis = [
+    "<:Clear_background_clear_meowl_ima:1453946504145277011>",
+    "<:Spookypumpky:1453946547053133864>",
+    "<:TangTangVfx:1453945321217589339>"
+];
 
 let last_animal_name = null;
 
@@ -86,9 +97,18 @@ function generate_others(main_money_value) {
     const num = [0, 1, 4, 5][Math.floor(Math.random() * 4)];
     const others = [];
     for (let i = 0; i < num; i++) {
-        const animal = animals[Math.floor(Math.random() * animals.length)];
+        let animal, money_val;
+        const r = Math.random();
+        if (r < 0.05) { // 5% gods في Others
+            animal = god_animals[Math.floor(Math.random() * god_animals.length)];
+        } else if (r < 0.65) { // 60% تحت 100M/s
+            const low_animals = animals.filter(a => a.money.some(m => m < 100));
+            animal = low_animals[Math.floor(Math.random() * low_animals.length)];
+        } else {
+            animal = animals[Math.floor(Math.random() * animals.length)];
+        }
         const possible = animal.money.filter(m => m < main_money_value);
-        let money_val = possible.length > 0 ? possible[Math.floor(Math.random() * possible.length)] : Math.floor(main_money_value / 2) || 10;
+        money_val = possible.length > 0 ? possible[Math.floor(Math.random() * possible.length)] : Math.floor(main_money_value / 2) || 10;
         others.push(`${animal.name}: $${money_val}M/s`);
     }
     return others.join('\n') || '';
@@ -114,17 +134,17 @@ async function send_animal_notifier() {
     const money = main_money_val >= 1000 ? `$${ (main_money_val / 1000).toFixed(1) }B/s` : `$${main_money_val}M/s`;
     const players = `${Math.floor(Math.random() * 5) + 4}/8`;
     const others = generate_others(main_money_val);
-    const color = embed_colors[Math.floor(Math.random() * embed_colors.length)];
+    const random_emoji = emojis[Math.floor(Math.random() * emojis.length)];
 
     const embed = {
-        title: "Akundisco Notifier | Priority ",
-        color: color,
+        title: `Akundisco Notifier | Priority ${random_emoji} `,
+        color: pink_color,
         fields: [
             { name: "Name", value: animal.name, inline: false },
             { name: "Money/sec", value: money, inline: true },
             { name: "Players", value: players, inline: true }
         ],
-        footer: { text: ` • Akundisco Notifier • Today at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).replace(' AM', 'AM').replace(' PM', 'PM')}` }
+        footer: { text: `• Akundisco Notifier • Today at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).replace(' AM', 'AM').replace(' PM', 'PM')}` }
     };
 
     if (others) {
@@ -145,8 +165,7 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`سيرفر شغال على http://localhost:${PORT} أو الدومين بتاعك`);
-    console.log(`حط الرابط ده في UptimeRobot: http://your-domain-or-ip:${PORT}/`);
+    console.log(`سيرفر شغال على الـ port ${PORT}`);
 });
 
 // إرسال كل دقيقة
