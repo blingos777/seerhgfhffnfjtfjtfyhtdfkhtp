@@ -83,7 +83,14 @@ const normal_new_animals = animals.slice(0, 30);
 const god_animals = animals.slice(30, 37);
 const old_animals = animals.slice(37);
 
-const pink_color = 0xFF69B4;
+const embed_colors = [
+    0x5BCEFA,  // أزرق فاتح
+    0xF5A9B8,  // وردي
+    0xFFFFFF,  // أبيض
+    0xFF69B4,  // وردي قوي
+    0xFFFF00,  // أصفر
+    0xFF0000   // أحمر
+];
 
 const emojis = [
     "<:Clear_background_clear_meowl_ima:1453946504145277011>",
