@@ -95,7 +95,9 @@ const embed_colors = [
 const emojis = [
     "<:Clear_background_clear_meowl_ima:1453946504145277011>",
     "<:Spookypumpky:1453946547053133864>",
-    "<:TangTangVfx:1453945321217589339>"
+    "<:TangTangVfx:1453945321217589339>",
+    "<:Santa_Hotspot:1453945389513183274>",
+    "<:LosSpaghettis:1453945359179972618>"
 ];
 
 let last_animal_name = null;
