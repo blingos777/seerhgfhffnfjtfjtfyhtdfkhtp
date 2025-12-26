@@ -145,7 +145,7 @@ const old_animals = animals.slice(42);
 const purple_color = 0x9B59B6; // بنفسجي ثابت
 
 const emojis = [
-    <:1403471635515703487:1454219094470692996>
+    <:1403471635515703487:1454219094470692996>,
 ];
 
 let last_animal_name = null;
