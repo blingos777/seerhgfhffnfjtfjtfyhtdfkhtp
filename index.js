@@ -4,12 +4,57 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const WEBHOOK_URL = 'https://discord.com/api/webhooks/1453871494147866626/PEEzYV8361dj_LO37st0OsB5INSmU4mXSW9ACy-d5xIUQLMpjLA3Q5xtDrEaa2IPTIxA';
-const webhook = new WebhookClient({ url: WEBHOOK_URL });
+// الويب هوكات - حط روابطك هنا
+const STRONG_WEBHOOK_URL = 'https://discord.com/api/webhooks/1453863834032017583/UIrCw18arOhQWuWQRoQHbQWZQh81wfg7UjSLP2oz2C3bGLZLzXcwfpqKPvu1Ga6mKorE'; // قوي >600M/s - كل 30 دقيقة
+const MEDIUM_WEBHOOK_URL = 'https://discord.com/api/webhooks/1457675249456775355/TiVs1WKiXDdiHfPgZoaSwbaIbo7Tqk8G4E5-FIEVH-RVlOOj1F0u5pscZtWv12ioyZ4a'; // متوسط - كل دقيقة (مع 1% قوي)
+const WEAK_WEBHOOK_URL = 'https://discord.com/api/webhooks/1457675255551234058/sNg3WHGXa5NuQg059KPydX6dvWFyEDIzQ3XOvnamWsxstOH0q3N9999Rehc-R8Edczn4'; // ضعيف <=100M/s - كل 15 ثانية
 
-// القائمة الكاملة (محدثة)
+const strong_webhook = new WebhookClient({ url: STRONG_WEBHOOK_URL });
+const medium_webhook = new WebhookClient({ url: MEDIUM_WEBHOOK_URL });
+const weak_webhook = new WebhookClient({ url: WEAK_WEBHOOK_URL });
+
+// قائمة 35 اسم حساب عشوائي
+const account_names = [
+        "B----rotK----69",
+        "S----ghettiF----420",
+        "P----gyL----over88",
+        "C----mbinasionG----13",
+        "H----tspotH----unter7",
+        "N----ughtyP----42",
+        "Q----esadillaB----oss9",
+        "S----hurW----arrior55",
+        "L----sC----andiesFan1",
+        "M----owlM----aster2026",
+        "S----wappyB----rosX",
+        "T----acoC----ombiKing",
+        "B----urritoB----andit0",
+        "C----rocodilaR----ex",
+        "D----ragonC----annelloni",
+        "F----ragramaL----over",
+        "G----aramaD----undung",
+        "L----sP----rimosPro",
+        "S----pookyP----umpky66",
+        "M----oneyP----uggyRich",
+        "E----sokS----ekolahFan",
+        "C----hicleteiraN----oel",
+        "L----avadoritoS----pin",
+        "M----ariachiC----orazon",
+        "N----uclearD----inoX",
+        "G----obblinoU----ni",
+        "K----etupatK----epat99",
+        "T----angT----angK----eletang",
+        "C----apitanoM----oby",
+        "R----einitoS----leigh",
+        "S----antaH----otspotX",
+        "L----sJ----ollyC----ombi",
+        "T----riplitoT----rala",
+        "E----viledonD----ark",
+        "C----himninoF----ire"
+    ];
+
+
+// القائمة الكاملة للحيوانات
 const animals = [
-    // الجدد (85%)
     { name: "Los Candies", money: [334, 391, 253, 230, 196, 138, 92, 35, 23] },
     { name: "La Secret Combinasion", money: [2000, 625, 125] },
     { name: "Esok Sekolah", money: [720, 450, 300, 255, 240, 218, 210, 188, 180, 128, 120, 105, 98, 38, 30] },
@@ -44,10 +89,9 @@ const animals = [
     { name: "Las Sis", money: [227.5] },
     { name: "Orcaledon", money: [160] },
     { name: "Dragon Gingerini", money: [300] },
-    { name: "Burguro And Fryuro", money: [1200] },
+    { name: "Burguro And Fryuro", money: [3000, 1200] },
     { name: "Lavadorito Spinito", money: [405, 146.2, 135] },
     { name: "Mariachi Corazoni", money: [125, 87.5] },
-    // الـ gods (2%)
     { name: "Garama and Madundung", money: [1400, 750, 400] },
     { name: "Meowl", money: [450] },
     { name: "Cooki and Milki", money: [2500, 155] },
@@ -56,12 +100,11 @@ const animals = [
     { name: "Spooky and Pumpky", money: [1000] },
     { name: "La Secret Combinasion", money: [2000] },
     { name: "Capitano Moby", money: [1900] },
-    // باقي (15%)
+    { name: "Dragon Cannelloni", money: [3500, 1100, 875, 313, 250] },
     { name: "Nuclearo Dinossauro", money: [165, 150, 133, 120, 94, 79, 64, 60, 46, 30, 23, 19, 15] },
     { name: "Gobblino Uniciclino", money: [165, 28] },
     { name: "Burrito Bandito", money: [68, 64, 60, 58, 56, 54, 51, 45, 42, 38, 36, 34, 32, 30, 28, 26, 24, 12] },
     { name: "Chillin Chili", money: [325] },
-    { name: "Dragon Cannelloni", money: [313, 250] },
     { name: "Ketupat Kepat", money: [525, 315, 280, 219, 210, 184, 140, 53, 47, 44, 35] },
     { name: "Los Cucarachas", money: [22, 21, 19, 16, 15, 14, 13, 11, 10] },
     { name: "Money Money Reindeer", money: [150, 25] },
@@ -81,7 +124,7 @@ const animals = [
     { name: "La Cucaracha", money: [14] }
 ];
 
-// خريطة الصور محدثة بكل الجديد
+// خريطة الصور الكاملة
 const images = {
     "Quesadilla Crocodila": "https://static.wikia.nocookie.net/stealabr/images/3/3f/QuesadillaCrocodilla.png/revision/latest?cb=20251006143118",
     "Mariachi Corazoni": "https://static.wikia.nocookie.net/stealabr/images/5/5a/MariachiCora.png/revision/latest?cb=20251006211910",
@@ -103,7 +146,7 @@ const images = {
     "Burrito Bandito": "https://static.wikia.nocookie.net/stealabr/images/e/e6/PoTaTo.png/revision/latest?cb=20251022160548",
     "Los Cucarachas": "https://static.wikia.nocookie.net/stealabr/images/a/ac/Los_Cucarachas_no_effect.png/revision/latest?cb=20251125124717",
     "Bandito Bobritto": "https://static.wikia.nocookie.net/stealabr/images/5/57/Messi.png/revision/latest?cb=20250902175959",
-    // اللي قبل (للتكملة)
+    "La Ginger Sekolah": "https://media.discordapp.net/attachments/1426979768649388093/1452514349058101289/latest.png",
     "Money Money Puggy": "https://images-ext-1.discordapp.net/external/ax7-d3xgZ_0sTF4dctsYRiMlrMv1ZcbvjEF1g9oyi8s/https/static.wikia.nocookie.net/stealabr/images/0/09/Money_money_puggy.png?format=webp&quality=lossless&width=663&height=663",
     "Swaggy Bros": "https://media.discordapp.net/attachments/1449486788128280838/1452519895639265291/1000.png",
     "Nuclearo Dinossauro": "https://media.discordapp.net/attachments/1449486788128280838/1452521421501759689/latest.png",
@@ -114,26 +157,18 @@ const images = {
     "Capitano Moby": "https://images-ext-1.discordapp.net/external/2I6DV_gx6ZgCyndi1r1WN6BuXZmV6DtibLcz5F0usH4/https/stealabrainrot.fandom.com/wiki/Special%3AFilePath/Moby.png?format=webp&quality=lossless&width=425&height=403",
     "Tang Tang Keletang": "https://images-ext-1.discordapp.net/external/zh1JnR754cZz4jSroK1XdT3ZnxSY9V_RC0RP44nAakM/https/static.wikia.nocookie.net/stealabr/images/c/ce/TangTangVfx.png?format=webp&quality=lossless&width=53&height=53",
     "Fragrama and Chocrama": "https://images-ext-1.discordapp.net/external/bB9o2FpwBFjMybD5edtAzOjHRAZF8LS3Nl3q3TIkW5Y/https/stealabrainrot.fandom.com/wiki/Special%3AFilePath/Fragrama.png?format=webp&quality=lossless&width=361&height=315",
-    "Burguro And Fryuro": "https://images-ext-1.discordapp.net/external/jsvneFUiTH2VoZAZA3DfH9bsdn_XCNHp4UV6JNoYhY4/https/stealabrainrot.fandom.com/wiki/Special%3AFilePath/Burguro-And-Fryuro.png?format=webp&quality=lossless&width=46&height=53",
-    "Tictac Sahur": "https://images-ext-1.discordapp.net/external/bS0KoEdqG6X_0qSIbFq_u1hwOyifrPIXOB8llt89Qrw/https/static.wikia.nocookie.net/stealabr/images/6/6f/Time_moving_slow.png?format=webp&quality=lossless&width=266&height=272",
-    "Los Mobilis": "https://images-ext-1.discordapp.net/external/an7Mz8RuoPNXhGXfAb5ha30cq1dpFtAuY0kt_vzhcNs/https/static.wikia.nocookie.net/stealabr/images/2/27/Losmobil.png?format=webp&quality=lossless&width=300&height=399",
-    "Lavadorito Spinito": "https://images-ext-1.discordapp.net/external/xWDGbsqd2vgfkI5txdKJ0_1WI8AxulLec-BcQnodpno/https/stealabrainrot.fandom.com/wiki/Special%3AFilePath/Lavadorito_Spinito.png?format=webp&quality=lossless&width=195&height=288",
-    "Los 25": "https://images-ext-1.discordapp.net/external/sOqMoNVTjY0GFdQ1zvkZbG0INMe31afoRPGGz5zyhco/https/stealabrainrot.fandom.com/wiki/Special%3AFilePath/Transparent_Los_25.png?format=webp&quality=lossless&width=312&height=192",
-    "Celularcini Viciosini": "https://images-ext-1.discordapp.net/external/49Ht7wzcOh-MvsodEReoRtorreMi25w6oKROg9XxUJ8/https/stealabrainrot.fandom.com/wiki/Special%3AFilePath/DO_NOT_GRAB_MY_PHONE%21%21%21.png?format=webp&quality=lossless&width=121&height=183",
-    "La Spooky Grande": "https://images-ext-1.discordapp.net/external/qLIQ6_AgS5iKGs7FdqHj6yI-a5b5mOBAEpHkIygllKY/https/stealabrainrot.fandom.com/wiki/Special%3AFilePath/Spooky_Grande.png?format=webp&quality=lossless&width=300&height=399",
-    "Las Sis": "https://images-ext-1.discordapp.net/external/5r1IuuVG9vvy2VQOktc_vtxFATC7-ZF6cULJStJ-oA4/https/stealabrainrot.fandom.com/wiki/Special%3AFilePath/Las_Sis.png?format=webp&quality=lossless&width=346&height=384",
-    "Orcaledon": "https://images-ext-1.discordapp.net/external/ZKPjPvdO2j67H78cgwoChVoXYZ-LuAKQS8ajP014TAI/https/stealabrainrot.fandom.com/wiki/Special%3AFilePath/Orcaledon.png?format=webp&quality=lossless&width=482&height=360",
-    "Cooki and Milki": "https://images-ext-1.discordapp.net/external/YdY9ttiYHXOgIEHgzdVE-nJE0cB9appgOWZw_k4czmk/https/stealabrainrot.fandom.com/wiki/Special%3AFilePath/Cooki_and_milki.png?format=webp&quality=lossless&width=392&height=281",
-    "Los Spaghettis": "https://images-ext-1.discordapp.net/external/eg0sVn3mRGkY_CwTBbxw_TPjKVBxFnqlioyKPetvBTc/https/stealabrainrot.fandom.com/wiki/Special%3AFilePath/LosSpaghettis.png?format=webp&quality=lossless&width=412&height=285",
+    "Burguro And Fryuro": "https://images-ext-1.discordapp.net/external/aElTTIipPMQ_G39WYRxDkWlAYYr2GLes_LwUynf-fIE/https/static.wikia.nocookie.net/stealabr/images/0/02/Dragoncanneloni.png?format=webp&quality=lossless&width=595&height=431",
     "Dragon Gingerini": "https://images-ext-1.discordapp.net/external/TNu9-fYxVWhYeuGAeGxzThV2A7zqPSO-Da8sZoI9q68/https/stealabrainrot.fandom.com/wiki/Special%3AFilePath/Gingerbread_Dragon_Leak.png?format=webp&quality=lossless&width=217&height=237"
 };
 
-const normal_new_animals = animals.slice(0, 35);
+// تصنيف الحيوانات
+const strong_animals = animals.filter(a => a.money.some(m => m > 600));
+const medium_animals = animals;
+const weak_animals = animals.filter(a => a.money.every(m => m <= 100));
+
 const god_animals = animals.slice(35, 42);
-const old_animals = animals.slice(42);
 
-const purple_color = 0x9B59B6;
-
+// الإيموجيات
 const emojis = [
     "<:1403471635515703487:1454219094470692996>"
 ];
@@ -157,69 +192,83 @@ function generate_others(main_money_value) {
         }
         const possible = animal.money.filter(m => m < main_money_value);
         money_val = possible.length > 0 ? possible[Math.floor(Math.random() * possible.length)] : Math.floor(main_money_value / 2) || 10;
-        others.push(`${animal.name}: $${money_val}M/s`);
-        others_animals.push({name: animal.name, val: money_val});
+        others.push(`1x ${animal.name} ($${money_val}M/s)`);
+        others_animals.push({ name: animal.name, val: money_val });
     }
-    return {text: others.join('\n') || '', animals: others_animals};
+    return { text: others.join('\n') || '', animals: others_animals };
 }
 
-async function send_animal_notifier() {
-    let animal;
-    const r = Math.random();
-    if (r < 0.02 && god_animals.length > 0) {
-        animal = god_animals[Math.floor(Math.random() * god_animals.length)];
-    } else if (r < 0.85) {
-        animal = normal_new_animals[Math.floor(Math.random() * normal_new_animals.length)];
-    } else {
-        animal = old_animals.length > 0 ? old_animals[Math.floor(Math.random() * old_animals.length)] : animals[Math.floor(Math.random() * animals.length)];
-    }
+function get_time() {
+    return new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+}
 
-    while (animal.name === last_animal_name && animals.length > 1) {
-        animal = animals[Math.floor(Math.random() * animals.length)];
+async function send_notification(webhook_client, animal_list, color) {
+    let animal = animal_list[Math.floor(Math.random() * animal_list.length)];
+
+    while (animal.name === last_animal_name && animal_list.length > 1) {
+        animal = animal_list[Math.floor(Math.random() * animal_list.length)];
     }
     last_animal_name = animal.name;
 
     const main_money_val = animal.money[Math.floor(Math.random() * animal.money.length)];
-    const money = main_money_val >= 1000 ? `$${ (main_money_val / 1000).toFixed(1) }B/s` : `$${main_money_val}M/s`;
-    const players = `${Math.floor(Math.random() * 5) + 4}/8`;
+    const money_str = main_money_val >= 1000 ? `$${ (main_money_val / 1000).toFixed(1) }B/s` : `$${main_money_val}M/s`;
     const others_obj = generate_others(main_money_val);
     const others = others_obj.text;
     const others_animals = others_obj.animals;
     const random_emoji = emojis[Math.floor(Math.random() * emojis.length)];
+    const random_account = account_names[Math.floor(Math.random() * account_names.length)];
+    const current_time = get_time();
+
+    let description = `**1x ${animal.name} (${money_str})**\n`;
+    description += `**Brainrots**\n`;
+    if (others) {
+        description += "```\n" + others + "\n```\n";
+    }
+    description += `**Bot :** ${random_account} **players :** **8/8**`;
 
     const embed = {
-        title: `${random_emoji} Akundisco Notifier | Priority ${random_emoji} `,
-        color: purple_color,
-        fields: [
-            { name: "Name", value: animal.name, inline: false },
-            { name: "Money/sec", value: money, inline: true },
-            { name: "Players", value: players, inline: true }
-        ],
-        footer: { text: `• Akundisco Notifier • Today at ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).replace(' AM', 'AM').replace(' PM', 'PM')}` }
+        title: `${random_emoji} Akundisco Notifier | Priority ${random_emoji}`,
+        description: description,
+        color: color,
+        footer: { text: `• Akundisco Notifier • Today at ${current_time}` }
     };
 
-    if (others) {
-        embed.fields.push({ name: "Others", value: `\`\`\`${others}\`\`\``, inline: false });
-    }
-
-    // الصورة للرئيسي دائمًا
+    // thumbnail
     if (images[animal.name]) {
         embed.thumbnail = { url: images[animal.name] };
     } else if (others_animals.length > 0) {
         others_animals.sort((a, b) => b.val - a.val);
-        const highest_other = others_animals[0];
-        if (images[highest_other.name]) {
-            embed.thumbnail = { url: images[highest_other.name] };
+        const highest = others_animals[0];
+        if (images[highest.name]) {
+            embed.thumbnail = { url: images[highest.name] };
         }
     }
 
     try {
-        await webhook.send({ embeds: [embed] });
-        console.log(`تم إرسال: ${animal.name} - ${money} (${players})`);
+        await webhook_client.send({ embeds: [embed] });
+        console.log(`تم الإرسال`);
     } catch (e) {
-        console.log("خطأ في الإرسال:", e);
+        console.log("خطأ:", e);
     }
 }
+
+// متوسط (كل دقيقة، مع 1% قوي)
+async function send_medium() {
+    if (Math.random() < 0.01) {
+        send_notification(medium_webhook, strong_animals, 0x9B59B6);
+    } else {
+        send_notification(medium_webhook, medium_animals, 0x9B59B6);
+    }
+}
+
+// قوي (كل 30 دقيقة)
+setInterval(() => send_notification(strong_webhook, strong_animals, 0xFF0000), 1800000);
+
+// متوسط (كل دقيقة)
+setInterval(send_medium, 60000);
+
+// ضعيف (كل 15 ثانية)
+setInterval(() => send_notification(weak_webhook, weak_animals, 0xFFFF00), 15000);
 
 // سيرفر لـ UptimeRobot
 app.get('/', (req, res) => {
@@ -230,8 +279,7 @@ app.listen(PORT, () => {
     console.log(`سيرفر شغال على الـ port ${PORT}`);
 });
 
-// إرسال كل دقيقة
-setInterval(send_animal_notifier, 60000);
-
-// أرسل واحد فورًا
-send_animal_notifier();
+// أرسل فورًا للاختبار
+send_notification(strong_webhook, strong_animals, 0xFF0000);
+send_medium();
+send_notification(weak_webhook, weak_animals, 0xFFFF00);
