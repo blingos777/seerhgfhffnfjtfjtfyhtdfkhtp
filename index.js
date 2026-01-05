@@ -5,9 +5,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // الويب هوكات - حط روابطك هنا
-const STRONG_WEBHOOK_URL = 'https://discord.com/api/webhooks/1457740639276892172/WmUoeRpnUAXJ6t2bA4-NnQKze9L2b-S4zPmIgU_6HvqQ7sETUQdX7L-nERfvVKTTbyHW'; // قوي >600M/s - كل 30 دقيقة
-const MEDIUM_WEBHOOK_URL = 'https://discord.com/api/webhooks/1453871494147866626/PEEzYV8361dj_LO37st0OsB5INSmU4mXSW9ACy-d5xIUQLMpjLA3Q5xtDrEaa2IPTIxA'; // متوسط - كل دقيقة (مع 1% قوي)
-const WEAK_WEBHOOK_URL = 'https://discord.com/api/webhooks/1457741757667213516/fObTTA9WESEDwlf2ewfCCQ4tocK1Q1j1N1d35FK9T2k2-YrreTRUnjnT3kWtr1jb0I6P'; // ضعيف <=100M/s - كل 15 ثانية
+const STRONG_WEBHOOK_URL = 'https://discord.com/api/webhooks/1453863834032017583/UIrCw18arOhQWuWQRoQHbQWZQh81wfg7UjSLP2oz2C3bGLZLzXcwfpqKPvu1Ga6mKorE'; // قوي >600M/s - كل 30 دقيقة
+const MEDIUM_WEBHOOK_URL = 'https://discord.com/api/webhooks/1457675249456775355/TiVs1WKiXDdiHfPgZoaSwbaIbo7Tqk8G4E5-FIEVH-RVlOOj1F0u5pscZtWv12ioyZ4a'; // متوسط - كل دقيقة (مع 1% قوي)
+const WEAK_WEBHOOK_URL = 'https://discord.com/api/webhooks/1457675255551234058/sNg3WHGXa5NuQg059KPydX6dvWFyEDIzQ3XOvnamWsxstOH0q3N9999Rehc-R8Edczn4'; // ضعيف <=100M/s - كل 15 ثانية
 
 const strong_webhook = new WebhookClient({ url: STRONG_WEBHOOK_URL });
 const medium_webhook = new WebhookClient({ url: MEDIUM_WEBHOOK_URL });
@@ -15,41 +15,7 @@ const weak_webhook = new WebhookClient({ url: WEAK_WEBHOOK_URL });
 
 // قائمة 35 اسم حساب عشوائي
 const account_names = [
-        "B----rotK----69",
-        "S----ghettiF----420",
-        "P----gyL----over88",
-        "C----mbinasionG----13",
-        "H----tspotH----unter7",
-        "N----ughtyP----42",
-        "Q----esadillaB----oss9",
-        "S----hurW----arrior55",
-        "L----sC----andiesFan1",
-        "M----owlM----aster2026",
-        "S----wappyB----rosX",
-        "T----acoC----ombiKing",
-        "B----urritoB----andit0",
-        "C----rocodilaR----ex",
-        "D----ragonC----annelloni",
-        "F----ragramaL----over",
-        "G----aramaD----undung",
-        "L----sP----rimosPro",
-        "S----pookyP----umpky66",
-        "M----oneyP----uggyRich",
-        "E----sokS----ekolahFan",
-        "C----hicleteiraN----oel",
-        "L----avadoritoS----pin",
-        "M----ariachiC----orazon",
-        "N----uclearD----inoX",
-        "G----obblinoU----ni",
-        "K----etupatK----epat99",
-        "T----angT----angK----eletang",
-        "C----apitanoM----oby",
-        "R----einitoS----leigh",
-        "S----antaH----otspotX",
-        "L----sJ----ollyC----ombi",
-        "T----riplitoT----rala",
-        "E----viledonD----ark",
-        "C----himninoF----ire"
+        "hidden"
     ];
 
 
@@ -121,11 +87,16 @@ const animals = [
     { name: "Chicleteirina Bicicleteirina", money: [40, 25, 17, 16] },
     { name: "La Taco Combinasion", money: [44] },
     { name: "Rang Ring Bus", money: [60] },
-    { name: "La Cucaracha", money: [14] }
+    { name: "La Cucaracha", money: [14] },
+    { name: "Lavadorito Spinito", money: [56] }
 ];
 
 // خريطة الصور الكاملة
 const images = {
+    "Los 67": "https://cdn.discordapp.com/attachments/1434317271949639842/1434836206155468800/Los-67.png?ex=695cd559&is=695b83d9&hm=0ee944962be959646e66b38b34c72a847054cd6582c71a8e2bcda5b50f28ee12",
+    "Los 25": "https://cdn.discordapp.com/attachments/1449486788128280838/1452518806013345792/latest.png?ex=695c900d&is=695b3e8d&hm=797b175ac312afb25695b5a2c382a14f9e5e8b50eb098bfd9b6c16dd9636742d",
+    "Lavadorito Spinito ": "https://static.wikia.nocookie.net/stealabr/images/f/ff/Lavadorito_Spinito.png",
+    "Nuclearo Dinossauro": "https://media.discordapp.net/attachments/1449486788128280838/1452521421501759689/latest.png?ex=695c927d&is=695b40fd&hm=77d265c09e07de714ddd17c28a2bb75e58d699eee35dd96e25e88346bb831bea&=&format=webp&quality=lossless&width=584&height=385",
     "Quesadilla Crocodila": "https://static.wikia.nocookie.net/stealabr/images/3/3f/QuesadillaCrocodilla.png/revision/latest?cb=20251006143118",
     "Mariachi Corazoni": "https://static.wikia.nocookie.net/stealabr/images/5/5a/MariachiCora.png/revision/latest?cb=20251006211910",
     "La Extinct Grande": "https://static.wikia.nocookie.net/stealabr/images/c/cd/La_Extinct_Grande.png/revision/latest?cb=20250914041757",
@@ -176,7 +147,7 @@ const emojis = [
 let last_animal_name = null;
 
 function generate_others(main_money_value) {
-    const num = [0, 1, 4, 5][Math.floor(Math.random() * 4)];
+    const num = [1, 1, 4, 5][Math.floor(Math.random() * 4)];
     const others = [];
     const others_animals = [];
     for (let i = 0; i < num; i++) {
@@ -214,6 +185,7 @@ async function send_notification(webhook_client, animal_list, color) {
     const money_str = main_money_val >= 1000 ? `$${ (main_money_val / 1000).toFixed(1) }B/s` : `$${main_money_val}M/s`;
     const others_obj = generate_others(main_money_val);
     const others = others_obj.text;
+    const players = `${Math.floor(Math.random() * 5) + 4}/8`;
     const others_animals = others_obj.animals;
     const random_emoji = emojis[Math.floor(Math.random() * emojis.length)];
     const random_account = account_names[Math.floor(Math.random() * account_names.length)];
@@ -224,7 +196,7 @@ async function send_notification(webhook_client, animal_list, color) {
     if (others) {
         description += "```\n" + others + "\n```\n";
     }
-    description += `**Bot :** ${random_account} **players :** **8/8**`;
+    description += `**Bot :** ${random_account} **players :** ${players}`;
 
     const embed = {
         title: `${random_emoji} Akundisco Notifier | Priority ${random_emoji}`,
