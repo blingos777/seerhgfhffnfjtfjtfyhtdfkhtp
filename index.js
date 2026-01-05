@@ -5,9 +5,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // الويب هوكات - حط روابطك هنا
-const STRONG_WEBHOOK_URL = 'https://discord.com/api/webhooks/1453863834032017583/UIrCw18arOhQWuWQRoQHbQWZQh81wfg7UjSLP2oz2C3bGLZLzXcwfpqKPvu1Ga6mKorE'; // قوي >600M/s - كل 30 دقيقة
-const MEDIUM_WEBHOOK_URL = 'https://discord.com/api/webhooks/1457675249456775355/TiVs1WKiXDdiHfPgZoaSwbaIbo7Tqk8G4E5-FIEVH-RVlOOj1F0u5pscZtWv12ioyZ4a'; // متوسط - كل دقيقة (مع 1% قوي)
-const WEAK_WEBHOOK_URL = 'https://discord.com/api/webhooks/1457675255551234058/sNg3WHGXa5NuQg059KPydX6dvWFyEDIzQ3XOvnamWsxstOH0q3N9999Rehc-R8Edczn4'; // ضعيف <=100M/s - كل 15 ثانية
+const STRONG_WEBHOOK_URL = 'https://discord.com/api/webhooks/1457740639276892172/WmUoeRpnUAXJ6t2bA4-NnQKze9L2b-S4zPmIgU_6HvqQ7sETUQdX7L-nERfvVKTTbyHW'; // قوي >600M/s - كل 30 دقيقة
+const MEDIUM_WEBHOOK_URL = 'https://discord.com/api/webhooks/1453871494147866626/PEEzYV8361dj_LO37st0OsB5INSmU4mXSW9ACy-d5xIUQLMpjLA3Q5xtDrEaa2IPTIxA'; // متوسط - كل دقيقة (مع 1% قوي)
+const WEAK_WEBHOOK_URL = 'https://discord.com/api/webhooks/1457741757667213516/fObTTA9WESEDwlf2ewfCCQ4tocK1Q1j1N1d35FK9T2k2-YrreTRUnjnT3kWtr1jb0I6P'; // ضعيف <=100M/s - كل 15 ثانية
 
 const strong_webhook = new WebhookClient({ url: STRONG_WEBHOOK_URL });
 const medium_webhook = new WebhookClient({ url: MEDIUM_WEBHOOK_URL });
