@@ -234,7 +234,7 @@ async function send_medium() {
 }
 
 // قوي (كل 30 دقيقة)
-setInterval(() => send_notification(strong_webhook, strong_animals, 0xFF0000), 1800000);
+setInterval(() => send_notification(strong_webhook, strong_animals, 0xFF0000), 3750000);
 
 // متوسط (كل دقيقة)
 setInterval(send_medium, 60000);
